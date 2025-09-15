@@ -1,5 +1,6 @@
 import {useEffect, useState} from "react";
 import type {Product} from "../models/product.ts";
+import Catalog from "../../features/catalog/Catalog.tsx";
 
 function App() {
 
@@ -29,12 +30,7 @@ function App() {
     return (
         <div>
             <h1 style={{color: 'red'}}>Dotre Store</h1>
-            <ul>
-                {products.map((item, index) => (
-                    <li key={index}> {item.name} - {item.price}</li>
-                ))}
-            </ul>
-            <button onClick={addProduct}>Add product</button>
+            <Catalog products={products} addProduct={addProduct} />
         </div>
     )
 }
