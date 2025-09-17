@@ -1,11 +1,28 @@
 import {useEffect, useState} from "react";
 import type {Product} from "../models/product.ts";
 import Catalog from "../../features/catalog/Catalog.tsx";
-import {Box, Button, Container, Typography} from "@mui/material";
+import {Box, Container, createTheme, CssBaseline, ThemeProvider} from "@mui/material";
+import NavBar from "./NavBar.tsx";
 
 function App() {
 
-    const [products, setProducts] = useState<Product[]>([])
+    const [products, setProducts] = useState<Product[]>([]);
+    const [darkMode, setDarkMode] = useState<boolean>(true);
+
+    function toggleDarkMode() {
+        setDarkMode(!darkMode);
+    }
+
+    const palletType = darkMode ? "dark" : "light";
+
+    const theme = createTheme({
+        palette: {
+            mode: palletType,
+            background: {
+                default: (palletType === "light") ? "#eaeaea" : "#121212"
+            }
+        }
+    })
 
     useEffect(() => {
         fetch('https://localhost:5001/api/products')
@@ -13,29 +30,25 @@ function App() {
             .then(data => setProducts(data))
     }, [])
 
-    const addProduct = () => {
-        setProducts(prevState => [...prevState,
-            {
-                id: prevState.length + 1,
-                name: 'product' + (prevState.length + 1),
-                price: prevState.length * 100 + 100,
-                quantityInStock: 100,
-                description: 'test',
-                pictureUrl: 'https://picsum.photo/200',
-                type: 'test',
-                brand: 'test'
-            }
-        ])
-    }
 
     return (
-        <Container maxWidth="xl">
-            <Box display="flex" justifyContent="center" gap={4} marginY={4}>
-                <Typography variant='h4'>Dotre Store</Typography>
-                <Button variant={'contained'} onClick={addProduct}>Add product</Button>
+        <ThemeProvider theme={theme}>
+            <NavBar darkMode={darkMode} toggleDarkMode={toggleDarkMode}/>
+            <CssBaseline/>
+            <Box
+                sx={{
+                    minHeight: "100vh",
+                    background: (darkMode)
+                        ? "radial-gradient(circle, #1e3aBa, #111B27)"
+                        : "radial-gradient(circle, #baecf9, #f0f9ff)",
+                    py: 6
+                }}
+            >
+                <Container maxWidth="xl" sx={{mt: 8}}>
+                    <Catalog products={products}/>
+                </Container>
             </Box>
-            <Catalog products={products}/>
-        </Container>
+        </ThemeProvider>
     )
 }
 
