@@ -1,23 +1,15 @@
 // import React from 'react';
 import type {Product} from "../../app/models/product.ts";
+import ProductList from "./ProductList.tsx";
 
 type Props = {
-    products: Product[],
-    addProduct: () => void,
+    products: Product[]
 }
 
-export default function Catalog({products, addProduct}: Props) {
+export default function Catalog({products}: Props) {
     return (
         <>
-            <ul>
-                {products.map(item => (
-                    <li key={item.id}> {item.name} - {item.price}</li>
-                ))}
-            </ul>
-            <button onClick={addProduct}>Add product</button>
+            <ProductList products={products}/>
         </>
-
     );
 }
-
-// export default Catalog;

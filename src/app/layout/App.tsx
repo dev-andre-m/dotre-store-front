@@ -1,6 +1,7 @@
 import {useEffect, useState} from "react";
 import type {Product} from "../models/product.ts";
 import Catalog from "../../features/catalog/Catalog.tsx";
+import {Box, Button, Container, Typography} from "@mui/material";
 
 function App() {
 
@@ -28,10 +29,13 @@ function App() {
     }
 
     return (
-        <div>
-            <h1 style={{color: 'red'}}>Dotre Store</h1>
-            <Catalog products={products} addProduct={addProduct} />
-        </div>
+        <Container maxWidth="xl">
+            <Box display="flex" justifyContent="center" gap={4} marginY={4}>
+                <Typography variant='h4'>Dotre Store</Typography>
+                <Button variant={'contained'} onClick={addProduct}>Add product</Button>
+            </Box>
+            <Catalog products={products}/>
+        </Container>
     )
 }
 
