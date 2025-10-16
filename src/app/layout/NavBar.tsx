@@ -1,12 +1,8 @@
 import {AppBar, Badge, Box, IconButton, LinearProgress, List, ListItem, Toolbar, Typography} from "@mui/material";
 import {DarkMode, LightMode, ShoppingCart} from "@mui/icons-material";
 import {NavLink} from "react-router-dom";
-import {useAppSelector} from "../store/store.ts";
-
-type Props = {
-    darkMode: boolean
-    toggleDarkMode: () => void
-}
+import {useAppDispatch, useAppSelector} from "../store/store.ts";
+import {setDarkMode} from "./uiSlice.ts";
 
 const midLinks = [
     {title: "catalog", path: "/catalog"},
@@ -31,15 +27,16 @@ const navStyles = {
     }
 }
 
-function NavBar({darkMode, toggleDarkMode}: Props) {
-const {isLoading} = useAppSelector(state => state.ui)
+function NavBar() {
+    const {isLoading, darkMode} = useAppSelector(state => state.ui)
+    const dispatch = useAppDispatch()
 
     return (
         <AppBar position="fixed">
             <Toolbar sx={{display: "flex", justifyContent: "space-between", alignItems: "center"}}>
                 <Box sx={{display: "flex", alignItems: "center"}}>
                     <Typography component={NavLink} sx={navStyles} to={"/"} variant="h6">DOTRE STORE</Typography>
-                    <IconButton onClick={toggleDarkMode}>
+                    <IconButton onClick={() => dispatch(setDarkMode())}>
                         {darkMode ? <DarkMode/> : <LightMode sx={{color: "yellow"}}/>}
                     </IconButton>
                 </Box>
